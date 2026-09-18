@@ -1,2 +1,2 @@
-# Music-player
-This is my first real python project so it will be bad for a while.
+# Installs
+to use go into terminal and type py -m pip install pytubefix, playsound3, easygui
