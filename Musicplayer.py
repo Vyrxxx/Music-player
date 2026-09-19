@@ -3,6 +3,10 @@ import easygui
 import os
 import random
 from pytubefix import YouTube
+import pygame
+from pydub import AudioSegment
+pygame.mixer.init()
+
 
 current_playlist = None
 playlist = []
@@ -44,10 +48,11 @@ Choose an option:
 
     if option == "1":
         file_path = easygui.fileopenbox()
+        loop = input("Enter the number of times to loop the song (-1 for infinite): ")
         print(f"Playing {file_path}")
-        playsound(file_path)
-       
-       
+        pygame.mixer.music.load(file_path)
+        pygame.mixer.music.play(loops=int(loop))
+
     if option == "2":
         url = input("Enter the url: ")
         yt = YouTube(url)
@@ -56,10 +61,13 @@ Choose an option:
         out_file = video.download()
 
         base, ext = os.path.splitext(out_file)
-        new_file = base + ".mp3"
-        os.rename(out_file, new_file)
+        new_file = base + ".ogg"
+
+        sound = AudioSegment.from_file(out_file)
+        sound.export(new_file, format="ogg")
+        os.remove(out_file)
         print(f"Saved as {new_file}")
-        
+
     if option == "3":
         file_path = easygui.fileopenbox()
         playlist.append(file_path)
@@ -67,17 +75,20 @@ Choose an option:
            for song in playlist:
              file.write(song + "\n")
 
-   
     if option == "4":
         random.shuffle(playlist)
         for song in playlist:
-            playsound(song)
-
+            print(f"Playing {song}")
+            pygame.mixer.music.load(song)
+            pygame.mixer.music.play()
+            pygame.time.wait(int(pygame.mixer.Sound(song).get_length() * 1000))
+            
+            
+            
 
     if option == "5":
         for song in playlist:
             print(song)
-
 
     if option == "6":
         print("Closing...")
