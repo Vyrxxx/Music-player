@@ -1,2 +1,2 @@
 # Installs
-to use go into terminal and type py -m pip install pytubefix pygame-ce easygui
+Open Source music player what doesn't just spy on you and sell your information to big corporations for personal / company gains. 
